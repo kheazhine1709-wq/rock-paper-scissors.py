@@ -1,0 +1,151 @@
+import random
+import time
+
+CHOICES = ["rock", "paper", "scissors"]
+
+BEATS = {
+    "rock": "scissors",
+    "paper": "rock",
+    "scissors": "paper"
+}
+
+EMOJIS = {
+    "rock": "✊",
+    "paper": "🤚",
+    "scissors": "✌️"
+}
+
+
+def get_user_choice():
+    while True:
+        choice = input(
+            "\n✊ Rock | 🤚 Paper | ✌️ Scissors\n"
+            "Choose your move (or type 'quit' to exit): "
+        ).lower().strip()
+
+        if choice == "quit":
+            return None
+
+        if choice in CHOICES:
+            return choice
+
+        print("❌ Invalid choice! Try again.")
+
+
+def get_computer_choice():
+    print("\n🤖 Computer is thinking", end="")
+
+    for i in range(3):
+        time.sleep(0.5)
+        print(".", end="", flush=True)
+
+    print()
+
+    return random.choice(CHOICES)
+
+
+def decide_winner(user, computer):
+    if user == computer:
+        return "tie"
+
+    elif BEATS[user] == computer:
+        return "user"
+
+    else:
+        return "computer"
+
+
+def show_title():
+    print("\n")
+    print("╔══════════════════════════════════╗")
+    print("║     ✊ ROCK PAPER SCISSORS       ║")
+    print("║          VS COMPUTER 🤖          ║")
+    print("╚══════════════════════════════════╝")
+    print()
+
+
+def play():
+    user_score = 0
+    computer_score = 0
+    round_number = 1
+
+    show_title()
+
+    while True:
+
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print(f"              ROUND {round_number}")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+        user_choice = get_user_choice()
+
+        if user_choice is None:
+            break
+
+        print(f"\nYou chose: {EMOJIS[user_choice]} {user_choice.upper()}")
+
+        computer_choice = get_computer_choice()
+
+        print(
+            f"Computer chose: "
+            f"{EMOJIS[computer_choice]} {computer_choice.upper()}"
+        )
+
+        print("\n⚔️  BATTLE ⚔️")
+        time.sleep(0.5)
+
+        print("3...")
+        time.sleep(0.5)
+
+        print("2...")
+        time.sleep(0.5)
+
+        print("1...")
+        time.sleep(0.5)
+
+        print("\n💥 RESULT! 💥")
+
+        result = decide_winner(user_choice, computer_choice)
+
+        if result == "tie":
+            print("🤝 IT'S A TIE!")
+        
+        elif result == "user":
+            print("🎉 YOU WIN THIS ROUND!")
+            user_score += 1
+
+        else:
+            print("🤖 COMPUTER WINS THIS ROUND!")
+            computer_score += 1
+
+        print("\n┌─────────────────────────────┐")
+        print(f"│  YOU      : {user_score}              │")
+        print(f"│  COMPUTER : {computer_score}              │")
+        print("└─────────────────────────────┘")
+
+        round_number += 1
+
+    print("\n")
+    print("╔══════════════════════════════════╗")
+    print("║          🏆 FINAL SCORE 🏆       ║")
+    print("╚══════════════════════════════════╝")
+
+    print(f"\n👤 YOU       : {user_score}")
+    print(f"🤖 COMPUTER  : {computer_score}")
+
+    print()
+
+    if user_score > computer_score:
+        print("🎊🎊🎊 CONGRATULATIONS! 🎊🎊🎊")
+        print("🏆 YOU WON THE GAME! 🏆")
+
+    elif user_score < computer_score:
+        print("🤖 COMPUTER WINS THE GAME!")
+        print("💪 Better luck next time!")
+
+    else:
+        print("🤝 THE GAME ENDED IN A TIE!")
+
+
+if __name__ == "_main_":
+    play()
